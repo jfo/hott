@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node index.js"
+  },
   "devDependencies": {
     "express": "^4.17.1"
   }
