@@ -1,9 +1,13 @@
 const express = require('express');
+const fs = require('fs');
 
 const app = express();
 
+const content = fs.readFileSync('./hello.html');
+
 app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>');
+  res.set('Content-Type', 'text/html');
+  res.send(content);
 })
 
 const port = 8765;
