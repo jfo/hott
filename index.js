@@ -1,14 +1,29 @@
 const express = require('express');
+const expressWs = require('express-ws');
 const fs = require('fs');
 
+const port = 8765;
 const app = express();
+expressWs(app);
 
-const content = fs.readFileSync('./hello.html');
+const filename = './hello.html'
+
 
 app.get('/', (req, res) => {
   res.set('Content-Type', 'text/html');
-  res.send(content);
+  const content = fs.readFileSync(filename);
+
+  res.send(content + `<script>
+    var socket = new WebSocket('ws://localhost:${port}');
+    socket.onmessage = m => document.body.innerHTML = m.data;
+  </script>`);
 })
 
-const port = 8765;
+app.ws('/', async (ws, req) => {
+  fs.watch(filename, () => {
+    const content = fs.readFileSync(filename);
+    ws.send(content.toString())
+  })
+})
+
 app.listen(port, () => console.log(`Listening on port ${port}.`));

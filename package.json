@@ -3,6 +3,7 @@
     "start": "node index.js"
   },
   "devDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0"
   }
 }
